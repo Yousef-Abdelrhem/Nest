@@ -1,56 +1,46 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Todo } from './todo.type';
 import { log } from 'console';
-
-// instance of class single tone
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { Todo, TodoDocument } from './schema/schema';
+import { CreateTodo } from './dto/create-todo';
 
 @Injectable()
 export class TodoService {
-  todo: Todo[] = [];
-  counter = 1;
+ 
+  constructor(@InjectModel(Todo.name) private todoModel: Model<TodoDocument>){} //???
 
-  create({ title }): Todo {
-    let newTodo = { id: this.counter++, title: title, isCompleted: false };
-    this.todo.push(newTodo);
-    return newTodo;
+  create(createTodo : CreateTodo) {
+    return this.todoModel.create(createTodo);
   }
 
-  getAll(): Todo[] {
-    return this.todo;
+  getAll() {
+    return this.todoModel.find();
   }
 
   getOneTodo(id: string) {
-    const Todo = this.todo.find((todo) => todo.id === +id);
+    const Todo = this.todoModel.findById(id);
     if (!Todo) {
       throw new NotFoundException(`Todo ${id} not found`);
     }
     return Todo;
   }
 
-  updateTodo(id: string, { title }): Todo[] {
-    const check = this.todo.find((todo) => todo.id === +id);
+  updateTodo(id: string, updatedDto: CreateTodo) {
+    const check = this.todoModel.findById(id);
+    if (!check) {
+      throw new NotFoundException(`Todo ${id} not found`);
+    }
+    return this.todoModel.updateOne({_id: id}, updatedDto);
+  }
+
+  DeleteTodo(id: string) {
+    const check = this.todoModel.findById(id);
     if (!check) {
       throw new NotFoundException(`Todo ${id} not found`);
     }
 
-    const newTodo = this.todo.map((todo) =>
-      todo.id === +id ? { ...todo, title } : todo,
-    );
-    this.todo = [...newTodo];
-    // Object.assign(todo, updateDto);
-    return this.todo;
-  }
-
-  DeleteTodo(id: string): Todo[] {
-    const check = this.todo.find((todo) => todo.id === +id); // 1 item 
-    if (check) {
-      throw new NotFoundException(`Todo ${id} not found`);
-    }
-    const newTodo = this.todo.filter((todo) => todo.id !== +id);
-        // delete by splice
-    console.log(newTodo);
-    this.todo = [...newTodo];
-    return this.todo;
+    return this.todoModel.deleteOne({_id: id});
   }
 
 }

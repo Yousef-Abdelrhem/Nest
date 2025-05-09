@@ -5,12 +5,14 @@ import {
   Get,
   Injectable,
   Param,
+  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
 import { Todo } from './todo.type';
 import { CreateTodo } from './dto/create-todo';
 import { TodoService } from './todo.service';
+import { Types } from 'mongoose';
 
 @Controller('todos')
 export class TodoController {
@@ -45,11 +47,3 @@ export class TodoController {
     return todos;
   }
 }
-
-// Functional Requirements:
-//  Create a new todo
-//  Retrieve all todos
-//  Retrieve a single todo by ID
-
-//  Update an existing todo by ID
-//  Delete a todo by ID

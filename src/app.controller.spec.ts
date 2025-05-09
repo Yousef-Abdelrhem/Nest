@@ -20,3 +20,9 @@ describe('AppController', () => {
     });
   });
 });
+
+
+// create a middle ware
+// pipes pipe init - pipe array - validation pipe
+// configure -- url database
+// make the crud operation on the mongo database

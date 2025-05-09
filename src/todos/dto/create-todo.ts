@@ -1,11 +1,7 @@
+import { IsNotEmpty, IsString } from "class-validator";
+
 export class CreateTodo {
+  @IsString()
+  @IsNotEmpty()
   title: string;
 }
-
-// export class CreateTodo {
-//     const newTodo = this.todo.map((todo) =>
-//         todo.id === +id ? { ...todo, title } : todo,
-//       );
-//       this.todo = [...newTodo];4
-//   }
-  
