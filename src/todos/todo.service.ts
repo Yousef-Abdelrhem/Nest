@@ -7,15 +7,15 @@ import { CreateTodo } from './dto/create-todo';
 
 @Injectable()
 export class TodoService {
- 
-  constructor(@InjectModel(Todo.name) private todoModel: Model<TodoDocument>){} //???
+  constructor(@InjectModel(Todo.name) private todoModel: Model<TodoDocument>) {}
 
-  create(createTodo : CreateTodo) {
+  create(createTodo: CreateTodo) {
     return this.todoModel.create(createTodo);
   }
 
-  getAll() {
-    return this.todoModel.find();
+  async getAll(): Promise<Todo[]> {
+    const todo = await this.todoModel.find().lean().exec();
+    return todo; // this will return plain js object
   }
 
   getOneTodo(id: string) {
@@ -31,7 +31,7 @@ export class TodoService {
     if (!check) {
       throw new NotFoundException(`Todo ${id} not found`);
     }
-    return this.todoModel.updateOne({_id: id}, updatedDto);
+    return this.todoModel.updateOne({ _id: id }, updatedDto);
   }
 
   DeleteTodo(id: string) {
@@ -40,7 +40,6 @@ export class TodoService {
       throw new NotFoundException(`Todo ${id} not found`);
     }
 
-    return this.todoModel.deleteOne({_id: id});
+    return this.todoModel.deleteOne({ _id: id });
   }
-
 }

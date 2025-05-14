@@ -1,16 +1,19 @@
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { HydratedDocument } from "mongoose";
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { HydratedDocument, Types } from 'mongoose';
+import { User } from 'src/users/entities/user.entity';
 
-export type TodoDocument = HydratedDocument<Todo>; 
+export type TodoDocument = HydratedDocument<Todo>;
 
 @Schema()
-export class Todo{
+export class Todo {
   @Prop()
-  title: string
+  title: string;
 
   @Prop()
-  isCompleted: boolean
-  
+  isCompleted: boolean;
+
+  @Prop({ required: false ,types: mongoose.Schema.Types.ObjectId, ref: User.name })
+  user?: Types.ObjectId;
 }
 
-export const TodoSchema = SchemaFactory.createForClass(Todo); // ???
+export const TodoSchema = SchemaFactory.createForClass(Todo);
