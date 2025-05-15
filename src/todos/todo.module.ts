@@ -4,14 +4,18 @@ import { TodoService } from './todo.service';
 import { LoggerMiddleware } from 'src/middleware/logger.middleware';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Todo, TodoSchema } from './schema/schema';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: Todo.name, schema: TodoSchema }])], // ?
+  imports: [
+    MongooseModule.forFeature([{ name: Todo.name, schema: TodoSchema }]),
+    AuthModule,
+  ],
   controllers: [TodoController],
   providers: [TodoService],
 })
-export class TodoModule implements NestModule{
-  configure(consumer: MiddlewareConsumer){
+export class TodoModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('todos');
   }
 }

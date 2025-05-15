@@ -1,12 +1,20 @@
 import { Prop, Schema, SchemaFactory, Virtual } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export enum UserRole {
   USER = 'user',
   ADMIN = 'ADMIN',
 }
 
+export type UserDocument = HydratedDocument<User>;
+
 @Schema({
-  toJSON: { virtuals: true },
+  toJSON: {
+    virtuals: true,
+    transform(doc, ret, options) {
+      delete ret.password;
+    }
+  },
   toObject: { virtuals: true },
 })
 export class User {

@@ -8,11 +8,13 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { Todo } from './todo.type';
 import { CreateTodo } from './dto/create-todo';
 import { TodoService } from './todo.service';
 import { Types } from 'mongoose';
+import { AuthGuard } from 'src/auth/guards/jwt.guard';
 
 @Controller('todos')
 export class TodoController {
@@ -24,6 +26,7 @@ export class TodoController {
     return newTodo;
   }
 
+  @UseGuards(AuthGuard)
   @Get()
   GetAllTodo() {
     return this.todoService.getAll();
