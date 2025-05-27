@@ -12,7 +12,7 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    MongooseModule.forRoot(process.env.MONGO_URl ?? 'http://localhost:20717/todo_db'),
+    MongooseModule.forRoot(process.env.MONGO_URL as string),
     TodoModule,
     UsersModule,
     AuthModule,
@@ -20,6 +20,4 @@ import { AuthModule } from './auth/auth.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-
-}
+export class AppModule {}
