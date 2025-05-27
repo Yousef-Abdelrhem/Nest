@@ -12,7 +12,11 @@ export class Todo {
   @Prop()
   isCompleted: boolean;
 
-  @Prop({ required: false ,types: mongoose.Schema.Types.ObjectId, ref: User.name })
+  @Prop({
+    required: false,
+    types: mongoose.Schema.Types.ObjectId,
+    ref: User.name,
+  })
   user?: Types.ObjectId;
 }
 

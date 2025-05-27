@@ -13,7 +13,7 @@ export type UserDocument = HydratedDocument<User>;
     virtuals: true,
     transform(doc, ret, options) {
       delete ret.password;
-    }
+    },
   },
   toObject: { virtuals: true },
 })

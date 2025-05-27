@@ -11,9 +11,7 @@ import { Request } from 'express';
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService) {}
-  async canActivate(
-    context: ExecutionContext,
-  ):  Promise<boolean>  {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: Request = context.switchToHttp().getRequest();
     const authHeader = request.headers.authorization;
     if (!authHeader?.startsWith(`Bearer `)) {
@@ -24,6 +22,6 @@ export class AuthGuard implements CanActivate {
     const payload = await this.authService.validateToken(token);
 
     request['user'] = payload;
-    return true; 
+    return true;
   }
 }
