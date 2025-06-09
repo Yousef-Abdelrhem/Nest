@@ -15,3 +15,11 @@ async function bootstrap() {
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
+
+
+// make a role base? 
+
+// make posts module
+  //
+// add comments and reactions
+// post sharing
